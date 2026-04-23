@@ -1,0 +1,761 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Ferndale Dog Licence" %}
+
+{% block content %}
+<style>[hidden]{display:none!important}</style>
+
+<!-- ================================================================
+     SCREEN 1 — START
+================================================================ -->
+<div id="s1" class="dl-screen">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Register your dog and apply for a licence</h1>
+
+      <p class="govuk-body">Use this service to register your dog with Ferndale Council and apply for a dog licence.</p>
+
+      <p class="govuk-body">Before you start, you'll need:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>your dog's microchip number — a 15-digit number on your registration card</li>
+        <li>the owner's date of birth and email address</li>
+        <li>your home address and postcode</li>
+        <li>a debit or credit card to pay the licence fee</li>
+      </ul>
+
+      <p class="govuk-body">Licensing your dog is a legal requirement in Ferndale for all dogs aged 8 weeks and over.</p>
+
+      <button class="govuk-button govuk-button--start" onclick="showScreen(2); return false;">
+        Start now
+        <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 2 — DOG DETAILS
+================================================================ -->
+<div id="s2" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <a href="#" class="govuk-back-link" onclick="goBack(event,1)">Back</a>
+
+      <div id="err-2" class="govuk-error-summary" hidden tabindex="-1">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="err-2-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <span class="govuk-caption-xl">Step 1 of 5</span>
+      <h1 class="govuk-heading-xl">About your dog</h1>
+
+      <div class="govuk-form-group" id="fg-dogName">
+        <label class="govuk-label govuk-label--m" for="dogName">Dog's name</label>
+        <p id="dogName-err" class="govuk-error-message" hidden>
+          <span class="govuk-visually-hidden">Error:</span> Enter your dog's name
+        </p>
+        <input class="govuk-input govuk-input--width-20" id="dogName" type="text" autocomplete="off">
+      </div>
+
+      <div class="govuk-form-group" id="fg-breed">
+        <label class="govuk-label govuk-label--m" for="breed">Breed</label>
+        <p id="breed-err" class="govuk-error-message" hidden>
+          <span class="govuk-visually-hidden">Error:</span> Select a breed
+        </p>
+        <select class="govuk-select" id="breed">
+          <option value="">Select a breed</option>
+          <option value="Labrador">Labrador</option>
+          <option value="German Shepherd">German Shepherd</option>
+          <option value="Bulldog">Bulldog</option>
+          <option value="Mixed breed">Mixed breed</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="govuk-form-group" id="fg-dob">
+        <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Date of birth</legend>
+          <div id="dob-hint" class="govuk-hint">For example, 27 3 2019</div>
+          <p id="dob-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> Enter your dog's date of birth
+          </p>
+          <div class="govuk-date-input">
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="dob-day">Day</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-day" type="text" inputmode="numeric">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="dob-month">Month</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-month" type="text" inputmode="numeric">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="dob-year">Year</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dob-year" type="text" inputmode="numeric">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="govuk-form-group" id="fg-microchip">
+        <label class="govuk-label govuk-label--m" for="microchip">Microchip number</label>
+        <div id="microchip-hint" class="govuk-hint">This is a 15-digit number</div>
+        <p id="microchip-err" class="govuk-error-message" hidden>
+          <span class="govuk-visually-hidden">Error:</span> Enter the microchip number
+        </p>
+        <input class="govuk-input govuk-input--width-20" id="microchip" type="text" aria-describedby="microchip-hint">
+      </div>
+
+      <button class="govuk-button" onclick="submitScreen(2)">Continue</button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 3 — OWNER DETAILS
+================================================================ -->
+<div id="s3" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <a href="#" class="govuk-back-link" onclick="goBack(event,2)">Back</a>
+
+      <div id="err-3" class="govuk-error-summary" hidden tabindex="-1">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="err-3-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <span class="govuk-caption-xl">Step 2 of 5</span>
+      <h1 class="govuk-heading-xl">Your details</h1>
+
+      <div class="govuk-form-group" id="fg-fullName">
+        <label class="govuk-label govuk-label--m" for="fullName">Full name</label>
+        <p id="fullName-err" class="govuk-error-message" hidden>
+          <span class="govuk-visually-hidden">Error:</span> Enter your full name
+        </p>
+        <input class="govuk-input govuk-input--width-20" id="fullName" type="text" autocomplete="name">
+      </div>
+
+      <div class="govuk-form-group" id="fg-ownerDob">
+        <fieldset class="govuk-fieldset" role="group" aria-describedby="ownerDob-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Date of birth</legend>
+          <div id="ownerDob-hint" class="govuk-hint">For example, 15 6 1985</div>
+          <p id="ownerDob-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> Enter your date of birth
+          </p>
+          <div class="govuk-date-input">
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="ownerDob-day">Day</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="ownerDob-day" type="text" inputmode="numeric">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="ownerDob-month">Month</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="ownerDob-month" type="text" inputmode="numeric">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="ownerDob-year">Year</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="ownerDob-year" type="text" inputmode="numeric">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="govuk-form-group" id="fg-email">
+        <label class="govuk-label govuk-label--m" for="email">Email address</label>
+        <p id="email-err" class="govuk-error-message" hidden>
+          <span class="govuk-visually-hidden">Error:</span> Enter your email address
+        </p>
+        <input class="govuk-input govuk-input--width-20" id="email" type="email" autocomplete="email">
+      </div>
+
+      <div class="govuk-form-group" id="fg-phone">
+        <label class="govuk-label govuk-label--m" for="phone">Phone number <span class="govuk-hint" style="display:inline">(optional)</span></label>
+        <div id="phone-hint" class="govuk-hint">We'll only contact you if there's a problem with your application</div>
+        <input class="govuk-input govuk-input--width-20" id="phone" type="tel" autocomplete="tel" aria-describedby="phone-hint">
+      </div>
+
+      <button class="govuk-button" onclick="submitScreen(3)">Continue</button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 4 — ADDRESS
+================================================================ -->
+<div id="s4" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <a href="#" class="govuk-back-link" onclick="goBack(event,3)">Back</a>
+
+      <div id="err-4" class="govuk-error-summary" hidden tabindex="-1">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="err-4-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <span class="govuk-caption-xl">Step 3 of 5</span>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">What is your address?</h1>
+        </legend>
+
+        <div class="govuk-form-group" id="fg-address1">
+          <label class="govuk-label" for="address1">Address line 1</label>
+          <p id="address1-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> Enter the first line of your address
+          </p>
+          <input class="govuk-input" id="address1" type="text" autocomplete="address-line1">
+        </div>
+
+        <div class="govuk-form-group" id="fg-address2">
+          <label class="govuk-label" for="address2">Address line 2 (optional)</label>
+          <input class="govuk-input" id="address2" type="text" autocomplete="address-line2">
+        </div>
+
+        <div class="govuk-form-group" id="fg-town">
+          <label class="govuk-label" for="town">Town or city</label>
+          <p id="town-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> Enter a town or city
+          </p>
+          <input class="govuk-input govuk-input--width-20" id="town" type="text" autocomplete="address-level2">
+        </div>
+
+        <div class="govuk-form-group" id="fg-postcode">
+          <label class="govuk-label" for="postcode">Postcode</label>
+          <p id="postcode-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> Enter a postcode
+          </p>
+          <input class="govuk-input govuk-input--width-10" id="postcode" type="text" autocomplete="postal-code">
+        </div>
+
+      </fieldset>
+
+      <button class="govuk-button" onclick="submitScreen(4)">Continue</button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 5 — LICENCE TYPE
+================================================================ -->
+<div id="s5" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <a href="#" class="govuk-back-link" onclick="goBack(event,4)">Back</a>
+
+      <div id="err-5" class="govuk-error-summary" hidden tabindex="-1">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="err-5-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <span class="govuk-caption-xl">Step 4 of 5</span>
+
+      <div class="govuk-form-group" id="fg-licenceType">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+            <h1 class="govuk-fieldset__heading">Select a licence type</h1>
+          </legend>
+          <p id="licenceType-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> Select a licence type
+          </p>
+          <div class="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="licence-annual" name="licenceType" type="radio" value="annual" aria-describedby="licence-annual-hint">
+              <label class="govuk-label govuk-radios__label" for="licence-annual">Annual licence — £12.50/year</label>
+              <div id="licence-annual-hint" class="govuk-hint govuk-radios__hint">Valid for 12 months. Renewal reminder sent 30 days before expiry.</div>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="licence-3year" name="licenceType" type="radio" value="3year" aria-describedby="licence-3year-hint">
+              <label class="govuk-label govuk-radios__label" for="licence-3year">3-year licence — £30.00</label>
+              <div id="licence-3year-hint" class="govuk-hint govuk-radios__hint">Valid for 3 years. Best value for established owners. One renewal reminder after 3 years.</div>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="licence-lifetime" name="licenceType" type="radio" value="lifetime" aria-describedby="licence-lifetime-hint">
+              <label class="govuk-label govuk-radios__label" for="licence-lifetime">Lifetime licence — £75.00</label>
+              <div id="licence-lifetime-hint" class="govuk-hint govuk-radios__hint">Never expires. Includes free microchip record updates and lost dog registration.</div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <button class="govuk-button" onclick="submitScreen(5)">Continue</button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 6 — DECLARATION
+================================================================ -->
+<div id="s6" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <a href="#" class="govuk-back-link" onclick="goBack(event,5)">Back</a>
+
+      <div id="err-6" class="govuk-error-summary" hidden tabindex="-1">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="err-6-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <span class="govuk-caption-xl">Step 5 of 5</span>
+
+      <div class="govuk-form-group" id="fg-declaration">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+            <h1 class="govuk-fieldset__heading">Declaration</h1>
+          </legend>
+          <p class="govuk-body">Before submitting your application, please confirm the following.</p>
+          <p id="declaration-err" class="govuk-error-message" hidden>
+            <span class="govuk-visually-hidden">Error:</span> You must confirm the declaration to continue
+          </p>
+          <div class="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="declaration" type="checkbox" value="confirmed">
+              <label class="govuk-label govuk-checkboxes__label" for="declaration">
+                I confirm the information I've provided is accurate and I am the registered owner of this dog.
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <button class="govuk-button" onclick="submitScreen(6)">Continue</button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 7 — CHECK YOUR ANSWERS
+================================================================ -->
+<div id="s7" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <a href="#" class="govuk-back-link" onclick="goBack(event,6)">Back</a>
+
+      <h1 class="govuk-heading-xl">Check your answers before submitting</h1>
+
+      <h2 class="govuk-heading-m">About your dog</h2>
+      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Dog's name</dt>
+          <dd class="govuk-summary-list__value" id="sum-dogName"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(2,event)">Change<span class="govuk-visually-hidden"> dog's name</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Breed</dt>
+          <dd class="govuk-summary-list__value" id="sum-breed"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(2,event)">Change<span class="govuk-visually-hidden"> breed</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value" id="sum-dob"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(2,event)">Change<span class="govuk-visually-hidden"> dog's date of birth</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Microchip number</dt>
+          <dd class="govuk-summary-list__value" id="sum-microchip"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(2,event)">Change<span class="govuk-visually-hidden"> microchip number</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Your details</h2>
+      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Full name</dt>
+          <dd class="govuk-summary-list__value" id="sum-fullName"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(3,event)">Change<span class="govuk-visually-hidden"> full name</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date of birth</dt>
+          <dd class="govuk-summary-list__value" id="sum-ownerDob"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(3,event)">Change<span class="govuk-visually-hidden"> your date of birth</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email address</dt>
+          <dd class="govuk-summary-list__value" id="sum-email"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(3,event)">Change<span class="govuk-visually-hidden"> email address</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Phone number</dt>
+          <dd class="govuk-summary-list__value" id="sum-phone"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(3,event)">Change<span class="govuk-visually-hidden"> phone number</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Your address</h2>
+      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Address</dt>
+          <dd class="govuk-summary-list__value" id="sum-address"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(4,event)">Change<span class="govuk-visually-hidden"> address</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Licence type</h2>
+      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Licence</dt>
+          <dd class="govuk-summary-list__value" id="sum-licenceType"></dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#" onclick="changeTo(5,event)">Change<span class="govuk-visually-hidden"> licence type</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Now submit your application</h2>
+      <p class="govuk-body">By submitting this application you confirm that, to the best of your knowledge, the details you are providing are correct.</p>
+
+      <button class="govuk-button" onclick="submitApplication()">Accept and submit</button>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 8 — CONFIRMATION
+================================================================ -->
+<div id="s8" class="dl-screen" hidden>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">Your licence has been submitted</h1>
+        <div class="govuk-panel__body">
+          Your reference number<br>
+          <strong id="ref-number">FRN-0000-DOG</strong>
+        </div>
+      </div>
+
+      <p class="govuk-body govuk-!-margin-top-6">We've sent a confirmation to <strong id="conf-email"></strong>. Allow 5 working days for processing.</p>
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>You'll receive your licence certificate by email within 5 working days</li>
+        <li>Your dog will be added to the Ferndale Council Dog Register</li>
+        <li>If you selected a lifetime licence, your microchip records will be updated automatically</li>
+      </ul>
+
+      <p class="govuk-body"><a class="govuk-link" href="/dog-licence">Return to homepage</a></p>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     JAVASCRIPT — STATE MANAGEMENT
+================================================================ -->
+<script>
+  const state = {
+    screen: 1,
+    returnTo: null,
+    dogName: '', breed: '',
+    dobDay: '', dobMonth: '', dobYear: '',
+    microchip: '',
+    fullName: '',
+    ownerDobDay: '', ownerDobMonth: '', ownerDobYear: '',
+    email: '', phone: '',
+    address1: '', address2: '', town: '', postcode: '',
+    licenceType: '',
+    confirmed: false
+  };
+
+  const licenceLabels = {
+    annual: 'Annual licence — £12.50/year',
+    '3year': '3-year licence — £30.00',
+    lifetime: 'Lifetime licence — £75.00'
+  };
+
+  function clearFieldErrors(n) {
+    const screen = document.getElementById('s' + n);
+    if (!screen) return;
+    screen.querySelectorAll('.govuk-form-group--error').forEach(el => el.classList.remove('govuk-form-group--error'));
+    screen.querySelectorAll('.govuk-error-message').forEach(el => { el.hidden = true; });
+    screen.querySelectorAll('.govuk-input--error').forEach(el => el.classList.remove('govuk-input--error'));
+    screen.querySelectorAll('.govuk-select--error').forEach(el => el.classList.remove('govuk-select--error'));
+    const summary = document.getElementById('err-' + n);
+    if (summary) summary.hidden = true;
+  }
+
+  function showScreen(n) {
+    document.querySelectorAll('.dl-screen').forEach(s => { s.hidden = true; });
+    document.getElementById('s' + n).hidden = false;
+    state.screen = n;
+    clearFieldErrors(n);
+    if (n >= 2 && n <= 6) populateScreen(n);
+    if (n === 7) populateSummary();
+    window.scrollTo(0, 0);
+    const heading = document.querySelector('#s' + n + ' h1');
+    if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus(); }
+  }
+
+  function goBack(event, n) {
+    event.preventDefault();
+    state.returnTo = null;
+    showScreen(n);
+  }
+
+  function changeTo(n, event) {
+    event.preventDefault();
+    state.returnTo = 7;
+    showScreen(n);
+  }
+
+  function populateScreen(n) {
+    if (n === 2) {
+      set('dogName', state.dogName);
+      set('breed', state.breed);
+      set('dob-day', state.dobDay);
+      set('dob-month', state.dobMonth);
+      set('dob-year', state.dobYear);
+      set('microchip', state.microchip);
+    } else if (n === 3) {
+      set('fullName', state.fullName);
+      set('ownerDob-day', state.ownerDobDay);
+      set('ownerDob-month', state.ownerDobMonth);
+      set('ownerDob-year', state.ownerDobYear);
+      set('email', state.email);
+      set('phone', state.phone);
+    } else if (n === 4) {
+      set('address1', state.address1);
+      set('address2', state.address2);
+      set('town', state.town);
+      set('postcode', state.postcode);
+    } else if (n === 5) {
+      document.querySelectorAll('input[name="licenceType"]').forEach(r => {
+        r.checked = r.value === state.licenceType;
+      });
+    } else if (n === 6) {
+      document.getElementById('declaration').checked = state.confirmed;
+    }
+  }
+
+  function set(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  }
+
+  function populateSummary() {
+    setText('sum-dogName', state.dogName);
+    setText('sum-breed', state.breed);
+    setText('sum-dob', formatDate(state.dobDay, state.dobMonth, state.dobYear));
+    setText('sum-microchip', state.microchip);
+    setText('sum-fullName', state.fullName);
+    setText('sum-ownerDob', formatDate(state.ownerDobDay, state.ownerDobMonth, state.ownerDobYear));
+    setText('sum-email', state.email);
+    setText('sum-phone', state.phone || 'Not provided');
+    const addrParts = [state.address1, state.address2, state.town, state.postcode].filter(Boolean);
+    document.getElementById('sum-address').innerHTML = addrParts.join('<br>') || '—';
+    setText('sum-licenceType', licenceLabels[state.licenceType] || '—');
+  }
+
+  function setText(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val || '—';
+  }
+
+  function formatDate(d, m, y) {
+    if (!d && !m && !y) return '—';
+    return [d, m, y].filter(Boolean).join(' / ');
+  }
+
+  function fgError(fgId, errId, show) {
+    const fg = document.getElementById(fgId);
+    const err = document.getElementById(errId);
+    if (fg) fg.classList.toggle('govuk-form-group--error', show);
+    if (err) err.hidden = !show;
+  }
+
+  function inputError(inputId, show, isSelect) {
+    const el = document.getElementById(inputId);
+    if (!el) return;
+    const cls = isSelect ? 'govuk-select--error' : 'govuk-input--error';
+    el.classList.toggle(cls, show);
+  }
+
+  function clearScreenErrors(n) {
+    document.getElementById('err-' + n).hidden = true;
+    document.getElementById('err-' + n + '-list').innerHTML = '';
+  }
+
+  function showSummaryErrors(n, errors) {
+    if (!errors.length) return;
+    const summary = document.getElementById('err-' + n);
+    const list = document.getElementById('err-' + n + '-list');
+    list.innerHTML = errors.map(e => `<li><a href="#${e.id}">${e.msg}</a></li>`).join('');
+    summary.hidden = false;
+    summary.focus();
+  }
+
+  function submitScreen(n) {
+    clearScreenErrors(n);
+    const errors = [];
+
+    if (n === 2) {
+      state.dogName = val('dogName');
+      state.breed = val('breed');
+      state.dobDay = val('dob-day');
+      state.dobMonth = val('dob-month');
+      state.dobYear = val('dob-year');
+      state.microchip = val('microchip');
+
+      fgError('fg-dogName', 'dogName-err', !state.dogName);
+      inputError('dogName', !state.dogName);
+      if (!state.dogName) errors.push({ id: 'dogName', msg: "Enter your dog's name" });
+
+      fgError('fg-breed', 'breed-err', !state.breed);
+      inputError('breed', !state.breed, true);
+      if (!state.breed) errors.push({ id: 'breed', msg: 'Select a breed' });
+
+      const dobMissing = !state.dobDay || !state.dobMonth || !state.dobYear;
+      fgError('fg-dob', 'dob-err', dobMissing);
+      ['dob-day','dob-month','dob-year'].forEach(id => inputError(id, dobMissing));
+      if (dobMissing) errors.push({ id: 'dob-day', msg: "Enter your dog's date of birth" });
+
+      fgError('fg-microchip', 'microchip-err', !state.microchip);
+      inputError('microchip', !state.microchip);
+      if (!state.microchip) errors.push({ id: 'microchip', msg: 'Enter the microchip number' });
+
+    } else if (n === 3) {
+      state.fullName = val('fullName');
+      state.ownerDobDay = val('ownerDob-day');
+      state.ownerDobMonth = val('ownerDob-month');
+      state.ownerDobYear = val('ownerDob-year');
+      state.email = val('email');
+      state.phone = val('phone');
+
+      fgError('fg-fullName', 'fullName-err', !state.fullName);
+      inputError('fullName', !state.fullName);
+      if (!state.fullName) errors.push({ id: 'fullName', msg: 'Enter your full name' });
+
+      const ownerDobMissing = !state.ownerDobDay || !state.ownerDobMonth || !state.ownerDobYear;
+      fgError('fg-ownerDob', 'ownerDob-err', ownerDobMissing);
+      ['ownerDob-day','ownerDob-month','ownerDob-year'].forEach(id => inputError(id, ownerDobMissing));
+      if (ownerDobMissing) errors.push({ id: 'ownerDob-day', msg: 'Enter your date of birth' });
+
+      fgError('fg-email', 'email-err', !state.email);
+      inputError('email', !state.email);
+      if (!state.email) errors.push({ id: 'email', msg: 'Enter your email address' });
+
+    } else if (n === 4) {
+      state.address1 = val('address1');
+      state.address2 = val('address2');
+      state.town = val('town');
+      state.postcode = val('postcode');
+
+      fgError('fg-address1', 'address1-err', !state.address1);
+      inputError('address1', !state.address1);
+      if (!state.address1) errors.push({ id: 'address1', msg: 'Enter the first line of your address' });
+
+      fgError('fg-town', 'town-err', !state.town);
+      inputError('town', !state.town);
+      if (!state.town) errors.push({ id: 'town', msg: 'Enter a town or city' });
+
+      fgError('fg-postcode', 'postcode-err', !state.postcode);
+      inputError('postcode', !state.postcode);
+      if (!state.postcode) errors.push({ id: 'postcode', msg: 'Enter a postcode' });
+
+    } else if (n === 5) {
+      const selected = document.querySelector('input[name="licenceType"]:checked');
+      state.licenceType = selected ? selected.value : '';
+
+      fgError('fg-licenceType', 'licenceType-err', !state.licenceType);
+      if (!state.licenceType) errors.push({ id: 'licence-annual', msg: 'Select a licence type' });
+
+    } else if (n === 6) {
+      state.confirmed = document.getElementById('declaration').checked;
+
+      fgError('fg-declaration', 'declaration-err', !state.confirmed);
+      if (!state.confirmed) errors.push({ id: 'declaration', msg: 'You must confirm the declaration to continue' });
+    }
+
+    showSummaryErrors(n, errors);
+    if (errors.length) return;
+
+    const next = state.returnTo || (n + 1);
+    state.returnTo = null;
+    showScreen(next);
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function submitApplication() {
+    const ref = 'FRN-' + Math.floor(1000 + Math.random() * 9000) + '-DOG';
+    document.getElementById('ref-number').textContent = ref;
+    document.getElementById('conf-email').textContent = state.email;
+    showScreen(8);
+  }
+</script>
+
+{% endblock %}
