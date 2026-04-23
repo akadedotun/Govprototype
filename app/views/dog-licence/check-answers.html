@@ -1,0 +1,120 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Check your answers" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/dog-licence/declaration" }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Check your answers before submitting</h1>
+
+    {# Map the licence type value to a readable label #}
+    {% if data['licenceType'] == "annual" %}
+      {% set licenceLabel = "Annual licence — £12.50/year" %}
+    {% elif data['licenceType'] == "3year" %}
+      {% set licenceLabel = "3-year licence — £30.00" %}
+    {% elif data['licenceType'] == "lifetime" %}
+      {% set licenceLabel = "Lifetime licence — £75.00" %}
+    {% else %}
+      {% set licenceLabel = "Not answered" %}
+    {% endif %}
+
+    {# Build the address as multiline HTML #}
+    {% set addressHtml %}
+      {{ data['address1'] }}<br>
+      {% if data['address2'] %}{{ data['address2'] }}<br>{% endif %}
+      {{ data['town'] }}<br>
+      {{ data['postcode'] }}
+    {% endset %}
+
+    <h2 class="govuk-heading-m">About your dog</h2>
+    {{ govukSummaryList({
+      classes: "govuk-!-margin-bottom-9",
+      rows: [
+        {
+          key: { text: "Dog's name" },
+          value: { text: data['dogName'] or "Not answered" },
+          actions: { items: [{ href: "/dog-licence/dog-details?change=true", text: "Change", visuallyHiddenText: "dog's name" }] }
+        },
+        {
+          key: { text: "Breed" },
+          value: { text: data['breed'] or "Not answered" },
+          actions: { items: [{ href: "/dog-licence/dog-details?change=true", text: "Change", visuallyHiddenText: "breed" }] }
+        },
+        {
+          key: { text: "Date of birth" },
+          value: { text: data['dob-day'] + " / " + data['dob-month'] + " / " + data['dob-year'] if data['dob-day'] else "Not answered" },
+          actions: { items: [{ href: "/dog-licence/dog-details?change=true", text: "Change", visuallyHiddenText: "date of birth" }] }
+        },
+        {
+          key: { text: "Microchip number" },
+          value: { text: data['microchip'] or "Not answered" },
+          actions: { items: [{ href: "/dog-licence/dog-details?change=true", text: "Change", visuallyHiddenText: "microchip number" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Your details</h2>
+    {{ govukSummaryList({
+      classes: "govuk-!-margin-bottom-9",
+      rows: [
+        {
+          key: { text: "Full name" },
+          value: { text: data['fullName'] or "Not answered" },
+          actions: { items: [{ href: "/dog-licence/owner-details?change=true", text: "Change", visuallyHiddenText: "full name" }] }
+        },
+        {
+          key: { text: "Date of birth" },
+          value: { text: data['ownerDob-day'] + " / " + data['ownerDob-month'] + " / " + data['ownerDob-year'] if data['ownerDob-day'] else "Not answered" },
+          actions: { items: [{ href: "/dog-licence/owner-details?change=true", text: "Change", visuallyHiddenText: "your date of birth" }] }
+        },
+        {
+          key: { text: "Email address" },
+          value: { text: data['email'] or "Not answered" },
+          actions: { items: [{ href: "/dog-licence/owner-details?change=true", text: "Change", visuallyHiddenText: "email address" }] }
+        },
+        {
+          key: { text: "Phone number" },
+          value: { text: data['phone'] or "Not provided" },
+          actions: { items: [{ href: "/dog-licence/owner-details?change=true", text: "Change", visuallyHiddenText: "phone number" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Your address</h2>
+    {{ govukSummaryList({
+      classes: "govuk-!-margin-bottom-9",
+      rows: [
+        {
+          key: { text: "Address" },
+          value: { html: addressHtml },
+          actions: { items: [{ href: "/dog-licence/address?change=true", text: "Change", visuallyHiddenText: "address" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Licence type</h2>
+    {{ govukSummaryList({
+      classes: "govuk-!-margin-bottom-9",
+      rows: [
+        {
+          key: { text: "Licence" },
+          value: { text: licenceLabel },
+          actions: { items: [{ href: "/dog-licence/licence-type?change=true", text: "Change", visuallyHiddenText: "licence type" }] }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m">Now submit your application</h2>
+    <p class="govuk-body">By submitting this application you confirm that, to the best of your knowledge, the details you are providing are correct.</p>
+
+    <form action="/dog-licence/check-answers" method="post">
+      {{ govukButton({ text: "Accept and submit" }) }}
+    </form>
+
+  </div>
+</div>
+{% endblock %}

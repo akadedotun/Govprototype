@@ -1,0 +1,70 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Your details" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/dog-licence/dog-details" }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form action="/dog-licence/owner-details{{ '?change=true' if change }}" method="post">
+
+      {% if errorList %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+      {% endif %}
+
+      <span class="govuk-caption-xl">Step 2 of 5</span>
+      <h1 class="govuk-heading-xl">Your details</h1>
+
+      {{ govukInput({
+        label: { text: "Full name", classes: "govuk-label--m" },
+        id: "fullName",
+        name: "fullName",
+        autocomplete: "name",
+        value: data['fullName'],
+        errorMessage: { text: errors['fullName'] } if errors and errors['fullName']
+      }) }}
+
+      {{ govukDateInput({
+        id: "ownerDob",
+        namePrefix: "ownerDob",
+        fieldset: {
+          legend: { text: "Date of birth", classes: "govuk-fieldset__legend--m" }
+        },
+        hint: { text: "For example, 15 6 1985" },
+        errorMessage: { text: errors['ownerDob'] } if errors and errors['ownerDob'],
+        items: [
+          { name: "day", classes: "govuk-input--width-2" + (" govuk-input--error" if errors and errors['ownerDob'] else ""), value: data['ownerDob-day'] },
+          { name: "month", classes: "govuk-input--width-2" + (" govuk-input--error" if errors and errors['ownerDob'] else ""), value: data['ownerDob-month'] },
+          { name: "year", classes: "govuk-input--width-4" + (" govuk-input--error" if errors and errors['ownerDob'] else ""), value: data['ownerDob-year'] }
+        ]
+      }) }}
+
+      {{ govukInput({
+        label: { text: "Email address", classes: "govuk-label--m" },
+        id: "email",
+        name: "email",
+        type: "email",
+        autocomplete: "email",
+        value: data['email'],
+        errorMessage: { text: errors['email'] } if errors and errors['email']
+      }) }}
+
+      {{ govukInput({
+        label: { text: "Phone number (optional)", classes: "govuk-label--m" },
+        hint: { text: "We'll only contact you if there's a problem with your application" },
+        id: "phone",
+        name: "phone",
+        type: "tel",
+        autocomplete: "tel",
+        value: data['phone']
+      }) }}
+
+      {{ govukButton({ text: "Continue" }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}

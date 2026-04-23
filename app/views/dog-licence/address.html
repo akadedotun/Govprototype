@@ -1,0 +1,69 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "What is your address?" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/dog-licence/owner-details" }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form action="/dog-licence/address{{ '?change=true' if change }}" method="post">
+
+      {% if errorList %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+      {% endif %}
+
+      <span class="govuk-caption-xl">Step 3 of 5</span>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">What is your address?</h1>
+        </legend>
+
+        {{ govukInput({
+          label: { text: "Address line 1" },
+          id: "address1",
+          name: "address1",
+          autocomplete: "address-line1",
+          value: data['address1'],
+          errorMessage: { text: errors['address1'] } if errors and errors['address1']
+        }) }}
+
+        {{ govukInput({
+          label: { text: "Address line 2 (optional)" },
+          id: "address2",
+          name: "address2",
+          autocomplete: "address-line2",
+          value: data['address2']
+        }) }}
+
+        {{ govukInput({
+          label: { text: "Town or city" },
+          classes: "govuk-input--width-20",
+          id: "town",
+          name: "town",
+          autocomplete: "address-level2",
+          value: data['town'],
+          errorMessage: { text: errors['town'] } if errors and errors['town']
+        }) }}
+
+        {{ govukInput({
+          label: { text: "Postcode" },
+          classes: "govuk-input--width-10",
+          id: "postcode",
+          name: "postcode",
+          autocomplete: "postal-code",
+          value: data['postcode'],
+          errorMessage: { text: errors['postcode'] } if errors and errors['postcode']
+        }) }}
+
+      </fieldset>
+
+      {{ govukButton({ text: "Continue" }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Register your dog and apply for a licence" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Register your dog and apply for a licence</h1>
+
+    <p class="govuk-body">Use this service to register your dog with Ferndale Council and apply for a dog licence.</p>
+
+    <p class="govuk-body">Before you start, you'll need:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your dog's microchip number — a 15-digit number on your registration card</li>
+      <li>the owner's date of birth and email address</li>
+      <li>your home address and postcode</li>
+      <li>a debit or credit card to pay the licence fee</li>
+    </ul>
+
+    <p class="govuk-body">Licensing your dog is a legal requirement in Ferndale for all dogs aged 8 weeks and over.</p>
+
+    {{ govukButton({
+      text: "Start now",
+      href: "/dog-licence/dog-details",
+      isStartButton: true
+    }) }}
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Declaration" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/dog-licence/licence-type" }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form action="/dog-licence/declaration" method="post">
+
+      {% if errorList %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+      {% endif %}
+
+      <span class="govuk-caption-xl">Step 5 of 5</span>
+
+      {{ govukCheckboxes({
+        name: "declaration",
+        errorMessage: { text: errors['declaration'] } if errors and errors['declaration'],
+        fieldset: {
+          legend: {
+            text: "Declaration",
+            classes: "govuk-fieldset__legend--xl",
+            isPageHeading: true
+          }
+        },
+        hint: { text: "Before submitting your application, please confirm the following." },
+        items: [
+          {
+            value: "confirmed",
+            text: "I confirm the information I've provided is accurate and I am the registered owner of this dog.",
+            checked: data['declaration'] == "confirmed"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({ text: "Continue" }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}

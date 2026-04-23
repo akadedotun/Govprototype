@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Licence submitted" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukPanel({
+      titleText: "Your licence has been submitted",
+      html: "Your reference number<br><strong>" + data['referenceNumber'] + "</strong>"
+    }) }}
+
+    <p class="govuk-body govuk-!-margin-top-6">We've sent a confirmation to <strong>{{ data['email'] }}</strong>. Allow 5 working days for processing.</p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>You'll receive your licence certificate by email within 5 working days</li>
+      <li>Your dog will be added to the Ferndale Council Dog Register</li>
+      <li>If you selected a lifetime licence, your microchip records will be updated automatically</li>
+    </ul>
+
+    <p class="govuk-body"><a class="govuk-link" href="/dog-licence">Return to homepage</a></p>
+
+  </div>
+</div>
+{% endblock %}

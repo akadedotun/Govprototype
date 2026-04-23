@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Select a licence type" %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/dog-licence/address" }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form action="/dog-licence/licence-type{{ '?change=true' if change }}" method="post">
+
+      {% if errorList %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+      {% endif %}
+
+      <span class="govuk-caption-xl">Step 4 of 5</span>
+
+      {{ govukRadios({
+        name: "licenceType",
+        errorMessage: { text: errors['licenceType'] } if errors and errors['licenceType'],
+        fieldset: {
+          legend: {
+            text: "Select a licence type",
+            classes: "govuk-fieldset__legend--xl",
+            isPageHeading: true
+          }
+        },
+        items: [
+          {
+            value: "annual",
+            text: "Annual licence — £12.50/year",
+            hint: { text: "Valid for 12 months. Renewal reminder sent 30 days before expiry." },
+            checked: data['licenceType'] == "annual"
+          },
+          {
+            value: "3year",
+            text: "3-year licence — £30.00",
+            hint: { text: "Valid for 3 years. Best value for established owners." },
+            checked: data['licenceType'] == "3year"
+          },
+          {
+            value: "lifetime",
+            text: "Lifetime licence — £75.00",
+            hint: { text: "Never expires. Includes free microchip record updates and lost dog registration." },
+            checked: data['licenceType'] == "lifetime"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({ text: "Continue" }) }}
+
+    </form>
+  </div>
+</div>
+{% endblock %}
